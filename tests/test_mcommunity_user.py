@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import patch
 
 from mcommunity.mcommunity_user import MCommunityUser
-from tests import mcommunity_mocks as mocks
+from mcommunity import mcommunity_mocks as mocks
 
 test_user = 'nemcardf'
 
