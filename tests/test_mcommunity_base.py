@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 import ldap
 
-from mcommunity.mcommunity_base import MCommunityBase
 from mcommunity import mcommunity_mocks as mocks
+from mcommunity.mcommunity_base import MCommunityBase
 
 
 class MCommunityBaseTestCase(unittest.TestCase):

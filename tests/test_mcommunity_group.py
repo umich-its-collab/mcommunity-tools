@@ -2,9 +2,9 @@ import logging
 import unittest
 from unittest.mock import patch
 
+from mcommunity import mcommunity_mocks as mocks
 from mcommunity.mcommunity_group import MCommunityGroup
 from mcommunity.mcommunity_user import MCommunityUser
-from mcommunity import mcommunity_mocks as mocks
 
 test_group = 'test-group'
 

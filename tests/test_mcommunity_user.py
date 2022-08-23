@@ -2,8 +2,8 @@ import logging
 import unittest
 from unittest.mock import patch
 
-from mcommunity.mcommunity_user import MCommunityUser
 from mcommunity import mcommunity_mocks as mocks
+from mcommunity.mcommunity_user import MCommunityUser
 
 test_user = 'nemcardf'
 
