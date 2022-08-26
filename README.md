@@ -1,6 +1,10 @@
 # mcommunity-tools
 Library for working with the MCommunity directory via LDAP with a focus on utility for the Collab team.
 
+# License and Use
+This package is NOT licensed for open-source use. It is only available for the University of Michigan ITS 
+Collaboration Services team.
+
 # How to Use
 1. Add the following as a new line to your project's `requirements.txt` file, where the text after the `@` and before 
 the `#` is the name of the [tag/version](https://github.com/umich-its-collab/mcommunity-tools/tags) of 
