@@ -131,9 +131,6 @@ class MCommunityUserTestCase(unittest.TestCase):
         with self.assertRaises(UserWarning):
             user.populate_service_entitlements()
 
-    def test_a_fake_test_to_see_what_is_wrong_with_eligibility_checker(self):
-        self.assertTrue(True)
-
     def tearDown(self) -> None:
         self.patcher.stop()
 
