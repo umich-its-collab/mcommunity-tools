@@ -82,7 +82,11 @@ class MCommunityUser(MCommunityBase):
         :return: None
         """
         if not self.affiliations:  # Don't overwrite if the list is not empty; it likely was already populated
-            self.affiliations = self._decode('umichInstRoles', return_str_if_single_item_list=False)
+            inst_roles = self._decode('umichInstRoles', return_str_if_single_item_list=False)
+            if inst_roles:
+                self.affiliations = inst_roles
+            else:
+                self.affiliations = []
 
     def populate_highest_affiliation(self) -> None:
         """

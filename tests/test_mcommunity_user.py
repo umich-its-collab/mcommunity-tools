@@ -72,6 +72,12 @@ class MCommunityUserTestCase(unittest.TestCase):
             'Retiree', 'AlumniAA'
         ], self.user.affiliations)
 
+    def test_populate_affiliations_no_roles(self):
+        user = MCommunityUser('nemcardna', mocks.test_app, mocks.test_secret)
+        self.assertEqual([], user.affiliations)  # Before populating, there should not be any
+        user.populate_affiliations()
+        self.assertEqual([], user.affiliations)
+
     def test_populate_highest_affiliation_faculty(self):
         self.assertEqual('', self.user.highest_affiliation)
         self.user.populate_highest_affiliation()
@@ -113,9 +119,15 @@ class MCommunityUserTestCase(unittest.TestCase):
         user.populate_highest_affiliation()
         self.assertEqual('Alumni', user.highest_affiliation)
 
-    def test_populate_highest_affiliation_na(self):
+    def test_populate_highest_affiliation_na_no_user(self):
         user = MCommunityUser('fake', mocks.test_app, mocks.test_secret)
         self.assertIsInstance(user.errors, NameError)
+        self.assertEqual('', user.highest_affiliation)
+        user.populate_highest_affiliation()
+        self.assertEqual('NA', user.highest_affiliation)
+
+    def test_populate_highest_affiliation_na_no_roles(self):
+        user = MCommunityUser('nemcardna', mocks.test_app, mocks.test_secret)
         self.assertEqual('', user.highest_affiliation)
         user.populate_highest_affiliation()
         self.assertEqual('NA', user.highest_affiliation)

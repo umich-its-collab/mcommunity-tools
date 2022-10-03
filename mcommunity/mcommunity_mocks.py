@@ -36,6 +36,8 @@ def mcomm_side_effect(*args):
             return alumni_with_use_mock
         elif query == 'nemcardfnouse':
             return faculty_empty_use_mock
+        elif query == 'nemcardna':
+            return na_no_roles_mock
         else:
             return []
     elif args[0] == 'ou=User Groups,ou=Groups,dc=umich,dc=edu':
@@ -138,6 +140,9 @@ alumni_with_use_mock[0][1]['umichServiceEntitlement'] = faculty_mock[0][1]['umic
 
 faculty_empty_use_mock = change_uniqname_on_mock(faculty_mock, 'nemcardfnouse')
 faculty_empty_use_mock[0][1].pop('umichServiceEntitlement')
+
+na_no_roles_mock = change_uniqname_on_mock(alumni_mock, 'nemcardna')
+na_no_roles_mock[0][1].pop('umichInstRoles')
 
 group_mock = [
     ('cn=test-group,ou=User Groups,ou=Groups,dc=umich,dc=edu', {
