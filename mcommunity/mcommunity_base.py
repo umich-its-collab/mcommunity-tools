@@ -62,23 +62,23 @@ class MCommunityBase:
     ###################
     # Private Methods #
     ###################
-    def _decode(self, which_key, return_str_if_single_item_list=True) -> Union[str, list]:
+    def _decode(self, which_key, return_str=True) -> Union[str, list]:
         """
         Decode a bytes object or a list of bytes objects to UTF-8
         :param which_key: a string representing the key to retrieve the value of in the user data
-        :param return_str_if_single_item_list: if True and the decoded item is a single-item list, return the item
+        :param return_str: if True and the decoded item is an empty or single-item list, return an empty str or the item
         instead of the list; if False, return the list with the single item; defaults to True;
         :return: the decoded item, either a string or a list
         """
         try:
-            value = self.raw_result[0][1].get(which_key, '')
+            value = self.raw_result[0][1].get(which_key, [])
         except IndexError:  # This will happen if the person/group doesn't exist or is not affiliated
-            return ''
+            return []
         if type(value) == bytes:  # Never seen this in LDAP, it is always a list even if just one item, but just in case
             return value.decode('UTF-8')
         elif type(value) == list:
             decoded = [i.decode('UTF-8') for i in value]
-            if return_str_if_single_item_list and len(decoded) == 1:
-                return decoded[0]
+            if return_str and len(decoded) <= 1:
+                return decoded[0] if decoded else ''
             else:
                 return decoded

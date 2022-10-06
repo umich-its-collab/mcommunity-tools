@@ -31,7 +31,6 @@ class MCommunityBaseTestCase(unittest.TestCase):
         with self.assertRaises(ldap.UNAVAILABLE):
             self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*'])
             self.assertEqual(3, magic_mock.call_count)
-        # self.patcher.start()
 
     def test_search_person_valid(self):
         self.assertEqual(mocks.faculty_mock, self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*']))
@@ -50,9 +49,17 @@ class MCommunityBaseTestCase(unittest.TestCase):
         self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*'])
         self.assertEqual('test_decoding_str', self.base._decode('test_str'))
 
+    def test_decode_empty_list_as_list(self):
+        self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardna', ['*'])
+        self.assertEqual([], self.base._decode('umichServiceEntitlements', return_str=False))
+
+    def test_decode_empty_list_as_str(self):
+        self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardna', ['*'])
+        self.assertEqual('', self.base._decode('umichServiceEntitlements'))
+
     def test_decode_single_item_list_as_list(self):
         self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*'])
-        self.assertEqual(['Natalie Emcard'], self.base._decode('cn', return_str_if_single_item_list=False))
+        self.assertEqual(['Natalie Emcard'], self.base._decode('cn', return_str=False))
 
     def test_decode_single_item_list_as_str(self):
         self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*'])
@@ -63,7 +70,7 @@ class MCommunityBaseTestCase(unittest.TestCase):
         self.assertEqual([
             'FacultyAA', 'RegularStaffDBRN', 'StudentFLNT', 'TemporaryStaffFLNT', 'SponsoredAffiliateAA',
             'Retiree', 'AlumniAA'
-        ], self.base._decode('umichInstRoles', return_str_if_single_item_list=False))
+        ], self.base._decode('umichInstRoles', return_str=False))
 
     def tearDown(self) -> None:
         self.patcher.stop()
