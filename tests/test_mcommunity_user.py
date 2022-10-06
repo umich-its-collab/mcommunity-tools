@@ -140,7 +140,7 @@ class MCommunityUserTestCase(unittest.TestCase):
     def test_populate_service_entitlements_warn_if_empty(self):
         user = MCommunityUser('nemcardfnouse', mocks.test_app, mocks.test_secret)
         self.assertEqual([], user.service_entitlements)  # Before populating, there should not be any
-        with self.assertRaises(UserWarning):
+        with self.assertWarns(UserWarning):
             user.populate_service_entitlements()
 
     def tearDown(self) -> None:

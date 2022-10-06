@@ -2,6 +2,7 @@ import json
 import logging
 import re
 from typing import Optional
+from warnings import warn
 
 from mcommunity.mcommunity_base import MCommunityBase
 
@@ -82,11 +83,7 @@ class MCommunityUser(MCommunityBase):
         :return: None
         """
         if not self.affiliations:  # Don't overwrite if the list is not empty; it likely was already populated
-            inst_roles = self._decode('umichInstRoles', return_str_if_single_item_list=False)
-            if inst_roles:
-                self.affiliations = inst_roles
-            else:
-                self.affiliations = []
+            self.affiliations = self._decode('umichInstRoles', return_str=False)
 
     def populate_highest_affiliation(self) -> None:
         """
@@ -119,7 +116,7 @@ class MCommunityUser(MCommunityBase):
         :return: None
         """
         if not self.service_entitlements:  # Don't overwrite if the list is not empty; it likely was already populated
-            self.service_entitlements = self._decode('umichServiceEntitlement', return_str_if_single_item_list=False)
+            self.service_entitlements = self._decode('umichServiceEntitlement', return_str=False)
             if not self.service_entitlements:
-                raise UserWarning('LDAP did not return any uSE for this user. Check to make sure the app you are '
-                                  'using has scopes for uSE.')
+                warn('LDAP did not return any uSE for this user. Check to make sure the app you are using has scopes '
+                     'for uSE.')
