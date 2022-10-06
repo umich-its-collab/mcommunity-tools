@@ -73,7 +73,10 @@ class MCommunityBase:
         try:
             value = self.raw_result[0][1].get(which_key, [])
         except IndexError:  # This will happen if the person/group doesn't exist or is not affiliated
-            return []
+            if return_str:
+                return ''
+            else:
+                return []
         if type(value) == bytes:  # Never seen this in LDAP, it is always a list even if just one item, but just in case
             return value.decode('UTF-8')
         elif type(value) == list:
