@@ -26,6 +26,7 @@ class MCommunityUserTestCase(unittest.TestCase):
         user = MCommunityUser('fake', mocks.test_app, mocks.test_secret)
         self.assertIsInstance(user.errors, NameError)
         self.assertEqual(False, user.exists)
+        self.assertEqual('', user.entityid)
 
     def test_user_exists(self):
         self.assertEqual(True, self.user.exists)
