@@ -10,15 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 class MCommunityUser(MCommunityBase):
-    email: str = ''
-    exists: bool = False
-    entityid: str = ''  # a.k.a. UMID
-    display_name: str = ''  # Display name, a.k.a. preferred name
-    affiliations: list = []  # Populate via populate_affiliations
-    highest_affiliation: str = ''  # Populate via populate_highest_affiliation
-    service_entitlements: list = []  # Populate via populate_service_entitlements
-    errors: Optional[BaseException] = None
-
     search_base: str = 'ou=People,dc=umich,dc=edu'
     ldap_attributes: list = [
         '*', 'umichServiceEntitlement', 'entityid', 'umichDisplaySN', 'umichNameOfRecord', 'displayName'
@@ -30,14 +21,19 @@ class MCommunityUser(MCommunityBase):
         self.query_object: str = f'uid={uniqname}'
         self.email: str = self.name + '@umich.edu'
 
+        self.affiliations: list = []  # Populate via populate_affiliations
+        self.highest_affiliation: str = ''  # Populate via populate_highest_affiliation
+        self.service_entitlements: list = []  # Populate via populate_service_entitlements
+
         self.raw_result = self.search(self.search_base, self.query_object, self.ldap_attributes)
+        self.entityid: str = self._decode('entityid')  # a.k.a. UMID
+        self.display_name: str = self._decode('displayName')  # Display name, a.k.a. preferred name
 
         if not self.raw_result:
-            self.errors = NameError(f'No user found in MCommunity for {self.name}')
+            self.exists: bool = False
+            self.errors: Optional[BaseException] = NameError(f'No user found in MCommunity for {self.name}')
         else:
-            self.exists = True
-            self.entityid = self._decode('entityid')
-            self.display_name = self._decode('displayName')
+            self.exists: bool = True
 
     ##################
     # Public Methods #
