@@ -8,4 +8,5 @@ setup(
       author='University of Michigan ITS Collaboration Services',
       author_email='4help@umich.edu',
       packages=['mcommunity'],
+      install_requires=['python-ldap==3.4.0']
 )
