@@ -40,7 +40,7 @@ class MCommunityBaseTestCase(unittest.TestCase):
 
     def test_search_group_valid(self):
         self.assertEqual(
-            mocks.group_mock, self.base.search('ou=User Groups,ou=Groups,dc=umich,dc=edu', 'cn=test-group', ['*']))
+            mocks.group_mock_1, self.base.search('ou=User Groups,ou=Groups,dc=umich,dc=edu', 'cn=test-group', ['*']))
 
     def test_search_group_invalid(self):
         self.assertEqual([], self.base.search('ou=User Groups,ou=Groups,dc=umich,dc=edu', 'uid=fake', ['*']))

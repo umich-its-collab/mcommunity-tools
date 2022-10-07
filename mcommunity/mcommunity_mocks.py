@@ -42,7 +42,9 @@ def mcomm_side_effect(*args):
             return []
     elif args[0] == 'ou=User Groups,ou=Groups,dc=umich,dc=edu':
         if query in ['test-group', 'collab-iam-admins']:
-            return group_mock
+            return group_mock_1
+        elif query == 'test-group-2':
+            return group_mock_2
         else:
             return []
     else:
@@ -144,10 +146,19 @@ faculty_empty_use_mock[0][1].pop('umichServiceEntitlement')
 na_no_roles_mock = change_uniqname_on_mock(alumni_mock, 'nemcardna')
 na_no_roles_mock[0][1].pop('umichInstRoles')
 
-group_mock = [
+group_mock_1 = [
     ('cn=test-group,ou=User Groups,ou=Groups,dc=umich,dc=edu', {
         'umichGroupEmail': [b'test.group'],
         'owner': [b'uid=nemcardf,ou=People,dc=umich,dc=edu', b'uid=nemcardrs,ou=People,dc=umich,dc=edu'],
         'member': [b'uid=nemcardf,ou=People,dc=umich,dc=edu', b'uid=nemcardrs,ou=People,dc=umich,dc=edu',
                    b'uid=nemcarda,ou=People,dc=umich,dc=edu'],
-        'cn': [b'test-group']})]
+        'cn': [b'test-group']})
+]
+
+group_mock_2 = [
+    ('cn=test-group-2,ou=User Groups,ou=Groups,dc=umich,dc=edu', {
+        'umichGroupEmail': [b'test.group.2'],
+        'owner': [b'uid=nemcardf,ou=People,dc=umich,dc=edu'],
+        'member': [b'uid=nemcardf,ou=People,dc=umich,dc=edu', b'uid=nemcardrs,ou=People,dc=umich,dc=edu'],
+        'cn': [b'test-group-2']})
+]
