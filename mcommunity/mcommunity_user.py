@@ -34,6 +34,7 @@ class MCommunityUser(MCommunityBase):
             self.errors: Optional[BaseException] = NameError(f'No user found in MCommunity for {self.name}')
         else:
             self.exists: bool = True
+            self.errors: Optional[BaseException] = None
 
     ##################
     # Public Methods #
