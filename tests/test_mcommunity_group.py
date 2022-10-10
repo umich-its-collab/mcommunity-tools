@@ -22,7 +22,7 @@ class MCommunityGroupTestCase(unittest.TestCase):
         self.assertEqual(test_group, self.group.name)
 
     def test_init_sets_raw_group(self):
-        self.assertEqual(mocks.group_mock, self.group.raw_result)
+        self.assertEqual(mocks.group_mock_1, self.group.raw_result)
         self.assertEqual(list, type(self.group.raw_result))
         self.assertEqual(1, len(self.group.raw_result))  # LDAP should always return a 1-item list for a real group
         self.assertEqual(2, len(self.group.raw_result[0]))  # LDAP should always return a 2-item tuple for a real group
@@ -50,6 +50,15 @@ class MCommunityGroupTestCase(unittest.TestCase):
         magic_mock.side_effect = mocks.mcomm_side_effect
         with self.assertRaises(NameError):
             self.assertEqual(False, MCommunityGroup('fake', mocks.test_app, mocks.test_secret).exists)
+
+    @patch('mcommunity.mcommunity_base.MCommunityBase.search')
+    def test_multiple_groups(self, magic_mock):
+        magic_mock.side_effect = mocks.mcomm_side_effect
+        group_2 = MCommunityGroup('test-group-2', mocks.test_app, mocks.test_secret)
+        self.assertNotEqual(self.group.name, group_2.name)
+        self.assertNotEqual(len(self.group.members), len(group_2.members))  # Should be 3 and 2
+        self.assertEqual(2, len(group_2.members))
+        self.assertFalse('nemcarda' in group_2.members)  # Only in first group, shouldn't be in second
 
 
 if __name__ == '__main__':
