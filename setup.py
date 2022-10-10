@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
       name='mcommunity',
-      version='0.5',
+      version='0.6',
       description='Library for working with the MCommunity directory via LDAP',
       url='https://github.com/umich-its-collab/mcommunity-tools',
       author='University of Michigan ITS Collaboration Services',
