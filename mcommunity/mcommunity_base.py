@@ -59,12 +59,6 @@ class MCommunityBase:
                 continue
         raise ldap.UNAVAILABLE  # If we get here, it failed 3 times and we just need to accept defeat and move on
 
-    def to_dict(self):
-        d = self.__dict__.copy()
-        d.pop('mcommunity_secret')  # Remove secret for security
-        d.pop('raw_result')  # raw_result contains bytes objects which are not JSON serializable, just remove it
-        return d
-
     ###################
     # Private Methods #
     ###################

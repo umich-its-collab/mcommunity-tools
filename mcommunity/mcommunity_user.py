@@ -117,9 +117,3 @@ class MCommunityUser(MCommunityBase):
             if not self.service_entitlements:
                 warn('LDAP did not return any uSE for this user. Check to make sure the app you are using has scopes '
                      'for uSE.')
-
-    def to_dict(self):
-        d = super().to_dict()
-        if self.errors:
-            d['errors'] = self.errors.__repr__()
-        return d

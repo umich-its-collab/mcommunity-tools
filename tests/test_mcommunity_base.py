@@ -1,4 +1,3 @@
-import json
 import logging
 import unittest
 from unittest.mock import patch
@@ -72,22 +71,6 @@ class MCommunityBaseTestCase(unittest.TestCase):
             'FacultyAA', 'RegularStaffDBRN', 'StudentFLNT', 'TemporaryStaffFLNT', 'SponsoredAffiliateAA',
             'Retiree', 'AlumniAA'
         ], self.base._decode('umichInstRoles', return_str=False))
-
-    def test_to_dict_returns_dict_of_attributes(self):
-        self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*'])
-        self.assertDictEqual({'mcommunity_app_cn': 'ITS-FakeTestApp-McDirApp001'}, self.base.to_dict())
-
-    def test_to_dict_removes_mcommunity_secret(self):
-        self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*'])
-        self.assertIsNone(self.base.to_dict().get('mcommunity_secret'))
-
-    def test_to_dict_removes_raw_result(self):
-        self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*'])
-        self.assertIsNone(self.base.to_dict().get('raw_result'))
-
-    def test_to_dict_produces_json_serializable_object(self):
-        self.base.raw_result = self.base.search('ou=People,dc=umich,dc=edu', 'uid=nemcardf', ['*'])
-        self.assertEqual('{"mcommunity_app_cn": "ITS-FakeTestApp-McDirApp001"}', json.dumps(self.base.to_dict()))
 
     def tearDown(self) -> None:
         self.patcher.stop()

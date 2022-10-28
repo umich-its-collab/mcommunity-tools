@@ -1,4 +1,3 @@
-import json
 import logging
 import unittest
 from unittest.mock import patch
@@ -60,20 +59,6 @@ class MCommunityGroupTestCase(unittest.TestCase):
         self.assertNotEqual(len(self.group.members), len(group_2.members))  # Should be 3 and 2
         self.assertEqual(2, len(group_2.members))
         self.assertFalse('nemcarda' in group_2.members)  # Only in first group, shouldn't be in second
-
-    def test_to_dict_produces_json_serializable_group_object(self):
-        # Just test JSON serializing the dict object; if an exception is NOT RAISED, it passes
-        # If an exception is raised, it will be TypeError: Object of type [type] is not JSON serializable
-        self.assertTrue(json.dumps(self.group.to_dict()))
-
-    @patch('mcommunity.mcommunity_base.MCommunityBase.search')
-    def test_to_dict_produces_json_serializable_group_object_mcomm_users(self, magic_mock):
-        magic_mock.side_effect = mocks.mcomm_side_effect
-        # Just test JSON serializing the dict object; if an exception is NOT RAISED, it passes
-        # If an exception is raised, it will be TypeError: Object of type [type] is not JSON serializable
-        self.group.populate_members_mcomm_users()
-        self.assertIsInstance(self.group.members_mcomm_users[0], MCommunityUser)  # Make sure it populated properly
-        self.assertTrue(json.dumps(self.group.to_dict()))
 
 
 if __name__ == '__main__':

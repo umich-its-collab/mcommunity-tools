@@ -1,4 +1,3 @@
-import json
 import logging
 import unittest
 from unittest.mock import patch
@@ -16,42 +15,6 @@ class MCommunityUserTestCase(unittest.TestCase):
         self.mock = self.patcher.start()
         self.mock.side_effect = mocks.mcomm_side_effect
         self.user = MCommunityUser(test_user, mocks.test_app, mocks.test_secret)
-        self.nemcardf_dict = {
-            'affiliations': [],
-            'display_name': 'Natalie Emcard',
-            'email': 'nemcardf@umich.edu',
-            'entityid': '00000000',
-            'errors': None,
-            'exists': True,
-            'highest_affiliation': '',
-            'mcommunity_app_cn': 'ITS-FakeTestApp-McDirApp001',
-            'name': 'nemcardf',
-            'query_object': 'uid=nemcardf',
-            'service_entitlements': []
-        }
-        self.nemcardf_dict_populated = self.nemcardf_dict.copy()
-        self.nemcardf_dict_populated['affiliations'] = [
-            'FacultyAA', 'RegularStaffDBRN', 'StudentFLNT', 'TemporaryStaffFLNT',
-            'SponsoredAffiliateAA', 'Retiree', 'AlumniAA'
-        ]
-        self.nemcardf_dict_populated['highest_affiliation'] = 'Faculty'
-        self.nemcardf_dict_populated['service_entitlements'] = [
-            '{"system":"papercut","changeDate":"20141201050814Z","foreignKey":"",'
-            '"eligibility":"yesDelay","status":"role","action":""}',
-            '{"system":"tdx","changeDate":"20200520160600Z","foreignKey":"5fd61fa7-035f-ea11-a81b-000d3a8e391e",'
-            '"eligibility":"yes","status":"active","action":""}',
-            '{"system":"box","changeDate":"20200815082046Z","foreignKey":"229315957","eligibility":"yesDelay",'
-            '"status":"active","action":""}',
-            '{"system":"canvas","changeDate":"20200821155033Z","foreignKey":"327664","eligibility":"yesImmed",'
-            '"status":"active","action":""}',
-            '{"system":"dropbox","changeDate":"20200929151240Z","foreignKey":"dbmid:x","eligibility":"yesDelay",'
-            '"status":"active","action":""}',
-            '{"system":"linkedinlearning","changeDate":"20201017144315Z","foreignKey":"","eligibility":"yesDelay",'
-            '"status":"","action":""}',
-            '{"system":"adobecc","changeDate":"20201017144315Z","foreignKey":"","eligibility":"cc","status":"",'
-            '"action":""}',
-            '{"system":"enterprise","changeDate":"20210721193419Z","eligibility":"yes","status":"active","action":""}'
-        ]
 
     def test_init_sets_name(self):
         self.assertEqual(test_user, self.user.name)
@@ -180,34 +143,6 @@ class MCommunityUserTestCase(unittest.TestCase):
         self.assertEqual([], user.service_entitlements)  # Before populating, there should not be any
         with self.assertWarns(UserWarning):
             user.populate_service_entitlements()
-
-    def test_to_dict_returns_dict_of_user_attributes_no_populating(self):
-        user = MCommunityUser('nemcardf', mocks.test_app, mocks.test_secret)
-        self.assertEqual(self.nemcardf_dict, user.to_dict())
-
-    def test_to_dict_returns_dict_of_user_attributes_with_populating(self):
-        user = MCommunityUser('nemcardf', mocks.test_app, mocks.test_secret)
-        user.populate_highest_affiliation()
-        user.populate_service_entitlements()
-        self.assertEqual(self.nemcardf_dict_populated, user.to_dict())
-
-    def test_to_dict_converts_error_to_str(self):
-        user = MCommunityUser('fake', mocks.test_app, mocks.test_secret)
-        self.assertEqual("NameError('No user found in MCommunity for fake')", user.to_dict().get('errors'))
-
-    def test_to_dict_produces_json_serializable_user_object(self):
-        user = MCommunityUser('nemcardf', mocks.test_app, mocks.test_secret)
-        user.populate_highest_affiliation()
-        user.populate_service_entitlements()
-        # Just test JSON serializing the dict object; if an exception is NOT RAISED, it passes
-        # If an exception is raised, it will be TypeError: Object of type [type] is not JSON serializable
-        self.assertTrue(json.dumps(user.to_dict()))
-
-    def test_to_dict_produces_json_serializable_user_object_not_found(self):
-        user = MCommunityUser('fake', mocks.test_app, mocks.test_secret)
-        # Just test JSON serializing the dict object; if an exception is NOT RAISED, it passes
-        # If an exception is raised, it will be TypeError: Object of type [type] is not JSON serializable
-        self.assertTrue(json.dumps(user.to_dict()))
 
     def tearDown(self) -> None:
         self.patcher.stop()
