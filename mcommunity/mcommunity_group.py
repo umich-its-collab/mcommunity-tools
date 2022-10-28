@@ -43,3 +43,8 @@ class MCommunityGroup(MCommunityBase):
             self.members_mcomm_users = [MCommunityUser(
                 uniqname, self.mcommunity_app_cn, self.mcommunity_secret) for uniqname in self.members]
         return self.members_mcomm_users
+
+    def to_dict(self):
+        d = super().to_dict()
+        d['members_mcomm_users'] = [i.to_dict() for i in self.members_mcomm_users]
+        return d
