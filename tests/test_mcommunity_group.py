@@ -29,7 +29,7 @@ class MCommunityGroupTestCase(unittest.TestCase):
         self.assertEqual(2, len(self.group.raw_result[0]))  # LDAP should always return a 2-item tuple for a real group
 
     def test_init_sets_members(self):
-        self.assertEqual(['nemcardf', 'nemcardrs', 'nemcarda'], self.group.members)
+        self.assertCountEqual(['nemcardf', 'nemcardrs', 'nemcarda'], self.group.members)
 
     @patch('mcommunity.mcommunity_base.MCommunityBase.search')
     def test_populate_members_mcomm_users(self, magic_mock):
@@ -41,7 +41,6 @@ class MCommunityGroupTestCase(unittest.TestCase):
             for uniqname in self.group.members
         ]
         self.assertEqual(len(members), len(self.group.members_mcomm_users))  # Should be 4 members
-        self.assertEqual(members[0].name, self.group.members_mcomm_users[0].name)  # Make sure first element is same
 
     def test_group_exists(self):
         self.assertEqual(True, self.group.exists)

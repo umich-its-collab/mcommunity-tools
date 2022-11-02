@@ -31,8 +31,10 @@ class MCommunityGroup(MCommunityBase):
             raise NameError(f'MCommunity group {self.name} does not exist.')
         else:
             self.exists = True
+            all_members = []
             for i in self.raw_result[0][1].get('member', []):
-                self.members.append(ldap.dn.explode_dn(i, flags=ldap.DN_FORMAT_LDAPV2)[0].split('uid=')[1])
+                all_members.append(ldap.dn.explode_dn(i, flags=ldap.DN_FORMAT_LDAPV2)[0].split('uid=')[1])
+                self.members = list(set(all_members))  # Convert to a set then back to a list as a way of removing duplicates
 
     def populate_members_mcomm_users(self) -> list:
         """
