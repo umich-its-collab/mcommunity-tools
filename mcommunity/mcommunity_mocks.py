@@ -46,7 +46,7 @@ def mcomm_side_effect(*args):
         elif query == 'test-group-2':
             return group_mock_2
         elif query == 'something-iam-primary':
-            return
+            return something_iam_primary_mock
         else:
             return []
     else:
