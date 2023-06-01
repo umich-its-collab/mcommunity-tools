@@ -45,6 +45,8 @@ def mcomm_side_effect(*args):
             return group_mock_1
         elif query == 'test-group-2':
             return group_mock_2
+        elif query == 'something-iam-primary':
+            return
         else:
             return []
     else:
@@ -161,4 +163,12 @@ group_mock_2 = [
         'owner': [b'uid=nemcardf,ou=People,dc=umich,dc=edu'],
         'member': [b'uid=nemcardf,ou=People,dc=umich,dc=edu', b'uid=nemcardrs,ou=People,dc=umich,dc=edu'],
         'cn': [b'test-group-2']})
+]
+
+something_iam_primary_mock = [
+    ('cn=something-iam-primary,ou=User Groups,ou=Groups,dc=umich,dc=edu', {
+        'umichGroupEmail': [b'something.iam.primary'],
+        'owner': [b'uid=nemcardts,ou=People,dc=umich,dc=edu'],
+        'member': [b'uid=nemcardts,ou=People,dc=umich,dc=edu', b'uid=nemcarda,ou=People,dc=umich,dc=edu'],
+        'cn': [b'something-iam-primary']})
 ]
