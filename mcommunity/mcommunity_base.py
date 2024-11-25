@@ -34,8 +34,6 @@ class MCommunityBase:
         """
         ldap.set_option(ldap.OPT_X_TLS_REQUIRE_CERT, ldap.OPT_X_TLS_NEVER)
         connect = ldap.initialize('ldaps://ldap.umich.edu')
-        connect.set_option(ldap.OPT_TIMEOUT, 60)
-        connect.set_option(ldap.OPT_NETWORK_TIMEOUT, 60)
         ldap.OPT_SIZELIMIT = 100
         connect.set_option(ldap.OPT_REFERRALS, 0)
         # Request new ID
